@@ -1,26 +1,100 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-cormorant: 'Cormorant Garamond', Georgia, serif;
+  --font-inter: 'Inter', system-ui, sans-serif;
+
+  /* Brand Colors */
+  --forest-green: #2D4A2D;
+  --forest-green-light: #3d6b3d;
+  --forest-green-muted: #4a6741;
+  --cream: #FAFAF8;
+  --cream-dark: #F2F0EC;
+  --warm-gray: #8a8680;
+  --light-gray: #d4d0c8;
+  --text-dark: #1a1a1a;
+  --text-muted: #6b6760;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter);
+  background-color: var(--cream);
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* Verse page typography */
+.verse-text {
+  font-family: var(--font-cormorant);
+  font-style: italic;
+  color: var(--forest-green);
+  line-height: 1.35;
+}
+
+.verse-reference {
+  font-family: var(--font-cormorant);
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.brand-logo {
+  font-family: var(--font-cormorant);
+  color: var(--forest-green);
+}
+
+/* Admin styles */
+.admin-body {
+  font-family: var(--font-inter);
+  background: #f8f8f6;
+}
+
+/* Divider */
+.divider {
+  width: 60px;
+  height: 1px;
+  background: var(--light-gray);
+  margin: 0 auto;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease forwards;
+}
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+.delay-600 { animation-delay: 0.6s; }
