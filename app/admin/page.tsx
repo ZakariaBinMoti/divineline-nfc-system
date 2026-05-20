@@ -58,6 +58,13 @@ const btnStyle = (bg: string, color: string, border?: string): React.CSSProperti
   whiteSpace: 'nowrap',
 })
 
+type VisibilitySettings = {
+  showReference: boolean
+  showScripture: boolean
+  showDeclaration: boolean
+  showCommentary: boolean
+}
+
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<Category>('identity')
   const [verses, setVerses] = useState<Verse[]>([])
@@ -82,6 +89,14 @@ export default function AdminPage() {
   const [verseToDelete, setVerseToDelete] = useState<string | null>(null)
   const [bulkDeleteConfirm, setBulkDeleteConfirm] = useState(false)
 
+  // Column visibility settings (controls what customers see)
+  const [visibility, setVisibility] = useState<VisibilitySettings>({
+    showReference: true,
+    showScripture: true,
+    showDeclaration: true,
+    showCommentary: true,
+  })
+
   const fetchVerses = useCallback(async () => {
     setLoading(true)
     const res = await fetch(`/api/admin/verses?category=${activeTab}`)
@@ -94,6 +109,41 @@ export default function AdminPage() {
   }, [activeTab])
 
   useEffect(() => { fetchVerses() }, [fetchVerses])
+
+  // Fetch visibility settings
+  useEffect(() => {
+    async function fetchSettings() {
+      try {
+        const res = await fetch('/api/admin/settings')
+        if (res.ok) {
+          const data = await res.json()
+          setVisibility({
+            showReference: data.showReference ?? true,
+            showScripture: data.showScripture ?? true,
+            showDeclaration: data.showDeclaration ?? true,
+            showCommentary: data.showCommentary ?? true,
+          })
+        }
+      } catch { /* use defaults */ }
+    }
+    fetchSettings()
+  }, [])
+
+  async function toggleVisibility(field: keyof VisibilitySettings) {
+    const newValue = !visibility[field]
+    setVisibility(prev => ({ ...prev, [field]: newValue }))
+    try {
+      await fetch('/api/admin/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ [field]: newValue }),
+      })
+      showToast(`${field.replace('show', '')} ${newValue ? 'visible' : 'hidden'} for customers.`)
+    } catch {
+      setVisibility(prev => ({ ...prev, [field]: !newValue }))
+      showToast('Failed to update visibility.')
+    }
+  }
 
   function showToast(msg: string) {
     setToast(msg)
@@ -295,7 +345,35 @@ export default function AdminPage() {
                 <th style={{ padding: '10px 12px', width: '30px' }}>
                   <input type="checkbox" checked={verses.length > 0 && selected.size === verses.length} onChange={toggleSelectAll} />
                 </th>
-                {['Reference', 'Scripture', 'Declaration', 'Commentary', 'Status', 'Actions'].map(h => (
+                {[
+                  { label: 'Reference', field: 'showReference' as keyof VisibilitySettings },
+                  { label: 'Scripture', field: 'showScripture' as keyof VisibilitySettings },
+                  { label: 'Declaration', field: 'showDeclaration' as keyof VisibilitySettings },
+                  { label: 'Commentary', field: 'showCommentary' as keyof VisibilitySettings },
+                ].map(col => (
+                  <th key={col.label} style={{
+                    padding: '10px 12px', textAlign: 'left', fontFamily: 'var(--font-inter)',
+                    fontSize: '0.68rem', fontWeight: 600, color: 'var(--text-muted)',
+                    letterSpacing: '0.07em', textTransform: 'uppercase', whiteSpace: 'nowrap',
+                  }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      {col.label}
+                      <button
+                        onClick={() => toggleVisibility(col.field)}
+                        title={visibility[col.field] ? `Hide ${col.label} from customers` : `Show ${col.label} to customers`}
+                        style={{
+                          background: 'none', border: 'none', cursor: 'pointer', padding: '2px',
+                          fontSize: '0.85rem', lineHeight: 1,
+                          opacity: visibility[col.field] ? 1 : 0.35,
+                          transition: 'opacity 0.2s',
+                        }}
+                      >
+                        {visibility[col.field] ? '👁' : '👁‍🗨'}
+                      </button>
+                    </div>
+                  </th>
+                ))}
+                {['Status', 'Actions'].map(h => (
                   <th key={h} style={{
                     padding: '10px 12px', textAlign: 'left', fontFamily: 'var(--font-inter)',
                     fontSize: '0.68rem', fontWeight: 600, color: 'var(--text-muted)',

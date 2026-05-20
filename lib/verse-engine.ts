@@ -36,21 +36,6 @@ export async function getNextVerseForBracelet(braceletCode: string): Promise<{
     bracelet_code: braceletCode,
   }).sort({ shown_at: -1 })
 
-  if (shownHistory.length > 0) {
-    const lastShown = shownHistory[0]
-    const today = new Date()
-    const lastDate = new Date(lastShown.shown_at)
-    
-    if (
-      today.getFullYear() === lastDate.getFullYear() &&
-      today.getMonth() === lastDate.getMonth() &&
-      today.getDate() === lastDate.getDate()
-    ) {
-      const verse = await Verse.findById(lastShown.verse_id)
-      if (verse) return { verse, isReset: false }
-    }
-  }
-
   const shownIds = new Set(shownHistory.map((h) => h.verse_id.toString()))
 
   // Find remaining (not yet shown) verses

@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
         {/* Logo */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '2.5rem' }}>
           <Image
-            src="/logo divinemedia.png"
+            src="/truthtaplogo-transparent.png"
             alt="DivineLine Media"
             width={260}
             height={80}

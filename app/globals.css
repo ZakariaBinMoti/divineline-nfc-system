@@ -73,6 +73,7 @@ body {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -80,8 +81,13 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .animate-fade-in-up {
@@ -92,9 +98,100 @@ body {
   animation: fadeIn 0.6s ease forwards;
 }
 
-.delay-100 { animation-delay: 0.1s; }
-.delay-200 { animation-delay: 0.2s; }
-.delay-300 { animation-delay: 0.3s; }
-.delay-400 { animation-delay: 0.4s; }
-.delay-500 { animation-delay: 0.5s; }
-.delay-600 { animation-delay: 0.6s; }
+.delay-100 {
+  animation-delay: 0.1s;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.delay-300 {
+  animation-delay: 0.3s;
+}
+
+.delay-400 {
+  animation-delay: 0.4s;
+}
+
+.delay-500 {
+  animation-delay: 0.5s;
+}
+
+.delay-600 {
+  animation-delay: 0.6s;
+}
+
+/* Declaration Bubble (Feature 5) */
+.declaration-bubble {
+  background: linear-gradient(135deg, rgba(45, 74, 45, 0.06) 0%, rgba(45, 74, 45, 0.12) 100%);
+  border-left: 3px solid var(--forest-green);
+  border-radius: 0 12px 12px 0;
+  padding: 1.25rem 1.5rem;
+  position: relative;
+}
+
+.declaration-bubble::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 0 12px 12px 0;
+  background: rgba(255, 255, 255, 0.4);
+  pointer-events: none;
+}
+
+.declaration-label {
+  font-family: var(--font-inter);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--forest-green);
+  margin-bottom: 0.6rem;
+  position: relative;
+  z-index: 1;
+}
+
+.declaration-text {
+  font-family: var(--font-cormorant);
+  font-weight: 600;
+  font-style: italic;
+  font-size: clamp(1.3rem, 5vw, 1.7rem);
+  color: var(--forest-green);
+  text-align: center;
+  line-height: 1.45;
+  position: relative;
+  z-index: 1;
+}
+
+/* Background image overlay for verse page */
+.verse-bg-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.verse-bg-overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(250, 250, 248, 0.82);
+  backdrop-filter: blur(2px);
+}
+
+.verse-content {
+  position: relative;
+  z-index: 1;
+}

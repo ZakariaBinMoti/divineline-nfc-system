@@ -13,6 +13,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
   const navItems = [
     { href: '/admin', label: 'Verses' },
     { href: '/admin/bracelets', label: 'Bracelets' },
+    { href: '/admin/customization', label: 'Customization' },
   ]
 
   return (
@@ -43,7 +44,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         {/* Brand Logo */}
         <Link href="/admin" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
           <Image
-            src="/logo divinemedia.png"
+            src="/truthtaplogo-transparent.png"
             alt="DivineLine Media"
             width={140}
             height={40}

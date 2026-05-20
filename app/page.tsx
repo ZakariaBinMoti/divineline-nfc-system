@@ -13,7 +13,7 @@ export default function Home() {
       {/* Header */}
       <header style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: '2.5rem', paddingBottom: '1rem', paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
         <Image
-          src="/logo divinemedia.png"
+          src="/truthtaplogo-transparent.png"
           alt="DivineLine Media"
           width={220}
           height={65}
