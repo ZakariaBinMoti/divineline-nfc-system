@@ -195,3 +195,8 @@ body {
   position: relative;
   z-index: 1;
 }
+
+.verse-main {
+  min-height: 100vh;
+  min-height: 100svh;
+}

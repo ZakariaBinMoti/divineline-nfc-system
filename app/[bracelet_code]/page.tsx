@@ -94,9 +94,8 @@ export default async function VersePage({ params }: Props) {
       )}
 
       <main
-        className="verse-content"
+        className="verse-content verse-main"
         style={{
-          minHeight: '100vh',
           display: 'flex',
           flexDirection: 'column',
           backgroundColor: backgroundImageUrl ? 'transparent' : bgColor,
