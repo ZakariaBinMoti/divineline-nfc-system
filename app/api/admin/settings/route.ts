@@ -28,6 +28,7 @@ export async function PUT(req: Request) {
   const allowedFields = [
     'showReference', 'showScripture', 'showDeclaration', 'showCommentary',
     'backgroundMode', 'solidColor',
+    'overlayColor', 'overlayOpacity', 'overlayBlur', 'textColor',
   ]
 
   const update: Record<string, unknown> = {}

@@ -44,7 +44,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
         {/* Brand Logo */}
         <Link href="/admin" style={{ display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
           <Image
-            src="/truthtaplogo-transparent.png"
+            src="/truthtaplogo-dark.png"
             alt="DivineLine Media"
             width={140}
             height={40}

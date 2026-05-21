@@ -15,5 +15,9 @@ export async function GET() {
     backgroundMode: settings.backgroundMode,
     solidColor: settings.solidColor,
     backgroundImages: settings.backgroundImages,
+    overlayColor: settings.overlayColor,
+    overlayOpacity: settings.overlayOpacity,
+    overlayBlur: settings.overlayBlur,
+    textColor: settings.textColor,
   })
 }

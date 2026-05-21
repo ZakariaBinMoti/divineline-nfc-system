@@ -11,6 +11,12 @@ export interface ISiteSettings extends Document {
   backgroundMode: 'solid' | 'images'
   solidColor: string
   backgroundImages: { url: string; publicId: string }[]
+  // Overlay settings
+  overlayColor: string
+  overlayOpacity: number
+  overlayBlur: number
+  // Text color
+  textColor: string
 }
 
 const SiteSettingsSchema = new Schema<ISiteSettings>({
@@ -25,6 +31,10 @@ const SiteSettingsSchema = new Schema<ISiteSettings>({
     url: { type: String, required: true },
     publicId: { type: String, required: true },
   }],
+  overlayColor: { type: String, default: '#000000' },
+  overlayOpacity: { type: Number, default: 0.4, min: 0.1, max: 0.9 },
+  overlayBlur: { type: Number, default: 2, min: 0, max: 10 },
+  textColor: { type: String, default: '#FFFFFF' },
 })
 
 export const SiteSettings: Model<ISiteSettings> =
