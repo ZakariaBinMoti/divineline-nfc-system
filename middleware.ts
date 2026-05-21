@@ -6,7 +6,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
   // Only protect these specific admin routes (NOT /admin/login)
-  const protectedPaths = ['/admin', '/admin/bracelets', '/admin/upload', '/admin/customization']
+  const protectedPaths = ['/admin', '/admin/bracelets', '/admin/upload', '/admin/customization', '/admin/users']
   const isProtected = protectedPaths.includes(pathname)
 
   if (isProtected) {
@@ -26,5 +26,5 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   // Explicitly only run on these paths
-  matcher: ['/admin', '/admin/bracelets', '/admin/upload', '/admin/customization'],
+  matcher: ['/admin', '/admin/bracelets', '/admin/upload', '/admin/customization', '/admin/users'],
 }

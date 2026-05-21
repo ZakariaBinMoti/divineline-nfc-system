@@ -1,5 +1,8 @@
 import { NextAuthOptions } from 'next-auth'
 import CredentialsProvider from 'next-auth/providers/credentials'
+import { connectDB } from '@/lib/db'
+import { AdminUser } from '@/lib/models/AdminUser'
+import { ensureDefaultAdmin } from '@/lib/seed-admin'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -10,20 +13,24 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials) {
-        const adminEmail = process.env.ADMIN_EMAIL
-        const adminPassword = process.env.ADMIN_PASSWORD
+        if (!credentials?.email || !credentials?.password) return null
 
-        if (
-          credentials?.email === adminEmail &&
-          credentials?.password === adminPassword
-        ) {
-          return {
-            id: '1',
-            name: 'DivineLine Admin',
-            email: adminEmail,
-          }
+        await connectDB()
+
+        // Ensure at least one admin exists (first-run migration)
+        await ensureDefaultAdmin()
+
+        const admin = await AdminUser.findOne({ email: credentials.email.toLowerCase() })
+        if (!admin) return null
+
+        const isValid = await admin.comparePassword(credentials.password)
+        if (!isValid) return null
+
+        return {
+          id: admin._id.toString(),
+          name: admin.name,
+          email: admin.email,
         }
-        return null
       },
     }),
   ],
@@ -36,11 +43,15 @@ export const authOptions: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.role = 'admin'
+      if (user) {
+        token.role = 'admin'
+        token.adminId = user.id
+      }
       return token
     },
     async session({ session, token }) {
       if (token.role) (session as any).role = token.role
+      if (token.adminId) (session as any).adminId = token.adminId
       return session
     },
   },
