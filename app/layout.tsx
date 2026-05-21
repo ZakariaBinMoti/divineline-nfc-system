@@ -26,6 +26,9 @@ export const metadata: Metadata = {
     description: 'Tap your bracelet to receive a daily word from God.',
     siteName: 'DivineLine Media',
   },
+  icons: {
+    icon: '/favicontruthtap.png?v=2',
+  },
 }
 
 export default function RootLayout({
